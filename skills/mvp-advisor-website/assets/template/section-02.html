@@ -1,0 +1,1328 @@
+<!-- =========================================================
+     {{custom_values.advisor_firm_name}}
+     ADVISOR PROFILE + CONTACT FORM
+     UPDATED RESPONSIVE FORM FIT
+========================================================= -->
+
+<section id="srs-modern-profile-section">
+
+  <div class="srs-modern-shell">
+
+
+    <!-- =====================================================
+         LEFT SIDE - ADVISOR
+    ====================================================== -->
+
+    <div class="srs-profile-card">
+
+
+      <!-- TOP LABEL -->
+
+      <div class="srs-profile-topline">
+
+        <span class="srs-profile-line"></span>
+
+        <span>
+          MEET YOUR ADVISOR
+        </span>
+
+      </div>
+
+
+      <!-- NAME -->
+
+      <h2 class="srs-profile-heading">
+        {{custom_values.advisor_name}}
+      </h2>
+
+
+      <!-- COMPANY -->
+
+      <p class="srs-profile-company">
+        {{custom_values.advisor_firm_name}}
+      </p>
+
+
+
+      <!-- ===================================================
+           VIDEO THUMBNAIL
+      ==================================================== -->
+
+      <a
+        href="{{custom_values.video_advisor_intro}}"
+        target="_blank"
+        rel="noopener"
+        class="srs-modern-video"
+        aria-label="Watch {{custom_values.advisor_name}} introduction"
+      >
+
+        <img
+          src="{{custom_values.video_advisor_intro_thumbnail}}"
+          alt="{{custom_values.advisor_name}} - {{custom_values.advisor_firm_name}}"
+          class="srs-modern-video-image"
+        >
+
+
+        <div class="srs-modern-video-overlay"></div>
+
+
+        <div class="srs-modern-video-play">
+
+          <span>
+            ▶
+          </span>
+
+        </div>
+
+
+        <div class="srs-modern-video-label">
+
+          <span class="srs-modern-video-label-line"></span>
+
+          <span>
+            Watch {{custom_values.advisor_first_name}}'s Introduction
+          </span>
+
+        </div>
+
+      </a>
+
+
+
+      <!-- ===================================================
+           BIO
+      ==================================================== -->
+
+      <div class="srs-modern-bio">
+{{custom_values.advisor_home_bio_html}}
+</div>
+
+
+
+      <!-- ===================================================
+           MEET OUR TEAM
+      ==================================================== -->
+
+      <div class="srs-team-button-wrap">
+
+        <a
+          href="#srs-about-section"
+          class="srs-team-button"
+        >
+
+          <span>
+            Meet Our Team
+          </span>
+
+          <span class="srs-team-arrow">
+            ↗
+          </span>
+
+        </a>
+
+      </div>
+
+    </div>
+
+
+
+    <!-- =====================================================
+         RIGHT SIDE - CONTACT FORM
+    ====================================================== -->
+
+    <div class="srs-form-card">
+
+
+      <!-- FORM HEADER -->
+
+      <div class="srs-form-header">
+
+        <div class="srs-form-eyebrow">
+          GET IN TOUCH
+        </div>
+
+        <h2 class="srs-form-heading">
+          Start the
+          <em>conversation.</em>
+        </h2>
+
+        <p class="srs-form-description">
+          Have a question or want to learn more about your financial options?
+          Send us your information and our team will be in touch.
+        </p>
+
+      </div>
+
+
+      <div class="srs-form-divider"></div>
+
+
+
+      <!-- ===================================================
+           FORM
+      ==================================================== -->
+
+      <div class="srs-form-embed">
+
+        <iframe
+          src="{{custom_values.advisor_contact_form_url}}"
+          id="srs-modern-contact-form"
+          title="Request Information"
+          loading="lazy"
+        ></iframe>
+
+      </div>
+
+
+      <!-- FORM FOOTER -->
+
+      <div class="srs-form-footer">
+
+        <span class="srs-form-footer-line"></span>
+
+        <span>
+          {{custom_values.advisor_firm_name}}
+        </span>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+
+<style>
+
+/* =========================================================
+   GLOBAL SECTION
+========================================================= */
+
+#srs-modern-profile-section {
+  width: 100%;
+
+  padding:
+    80px
+    24px
+    170px;
+
+  box-sizing: border-box;
+
+  background:
+    radial-gradient(
+      circle at top left,
+      rgba(142,152,151,0.10),
+      transparent 34%
+    ),
+    #f3f5f5;
+
+  font-family:
+    Arial,
+    Helvetica,
+    sans-serif;
+}
+
+
+#srs-modern-profile-section * {
+  box-sizing: border-box;
+}
+
+
+/* =========================================================
+   MAIN GRID
+========================================================= */
+
+.srs-modern-shell {
+  width: 100%;
+
+  max-width: 1180px;
+
+  margin: 0 auto;
+
+  display: grid;
+
+  grid-template-columns:
+    minmax(0, 1.25fr)
+    minmax(370px, 0.85fr);
+
+  gap: 30px;
+
+  align-items: start;
+}
+
+
+/* =========================================================
+   LEFT PROFILE CARD
+========================================================= */
+
+.srs-profile-card {
+  position: relative;
+
+  padding: 36px;
+
+  overflow: hidden;
+
+  border:
+    1px solid rgba(30,30,30,0.06);
+
+  border-radius: 28px;
+
+  background: #ffffff;
+
+  box-shadow:
+    0 20px 60px rgba(25,25,25,0.07);
+
+  transition:
+    transform 0.35s ease,
+    box-shadow 0.35s ease;
+}
+
+
+.srs-profile-card::before {
+  content: "";
+
+  position: absolute;
+
+  width: 280px;
+
+  height: 280px;
+
+  top: -140px;
+
+  right: -150px;
+
+  border-radius: 50%;
+
+  background:
+    rgba(142,152,151,0.09);
+
+  pointer-events: none;
+}
+
+
+.srs-profile-card:hover {
+  transform:
+    translateY(-3px);
+
+  box-shadow:
+    0 28px 68px rgba(25,25,25,0.09);
+}
+
+
+/* =========================================================
+   PROFILE LABEL
+========================================================= */
+
+.srs-profile-topline {
+  position: relative;
+
+  z-index: 2;
+
+  display: flex;
+
+  align-items: center;
+
+  gap: 11px;
+
+  margin-bottom: 14px;
+
+  color: #8e9897;
+
+  font-size: 10px;
+
+  font-weight: 700;
+
+  letter-spacing: 2.3px;
+}
+
+
+.srs-profile-line {
+  width: 34px;
+
+  height: 1px;
+
+  background: #8e9897;
+}
+
+
+/* =========================================================
+   PROFILE NAME
+========================================================= */
+
+.srs-profile-heading {
+  position: relative;
+
+  z-index: 2;
+
+  margin: 0;
+
+  color: #202525;
+
+  font-size:
+    clamp(36px, 4vw, 54px);
+
+  line-height: 1;
+
+  font-weight: 600;
+
+  letter-spacing: -2px;
+}
+
+
+.srs-profile-company {
+  position: relative;
+
+  z-index: 2;
+
+  margin:
+    11px
+    0
+    28px;
+
+  color: #8e9897;
+
+  font-family:
+    Georgia,
+    "Times New Roman",
+    serif;
+
+  font-size: 20px;
+
+  font-style: italic;
+}
+
+
+/* =========================================================
+   VIDEO
+========================================================= */
+
+.srs-modern-video {
+  position: relative;
+
+  display: block;
+
+  width: 100%;
+
+  aspect-ratio: 16 / 9;
+
+  overflow: hidden;
+
+  border-radius: 21px;
+
+  background: #111;
+
+  text-decoration: none !important;
+
+  box-shadow:
+    0 18px 45px rgba(0,0,0,0.13);
+}
+
+
+.srs-modern-video-image {
+  position: absolute;
+
+  inset: 0;
+
+  display: block;
+
+  width: 100%;
+
+  height: 100%;
+
+  object-fit: cover;
+
+  object-position: center;
+
+  transition:
+    transform 0.5s ease;
+}
+
+
+.srs-modern-video:hover
+.srs-modern-video-image {
+  transform:
+    scale(1.04);
+}
+
+
+/* =========================================================
+   VIDEO OVERLAY
+========================================================= */
+
+.srs-modern-video-overlay {
+  position: absolute;
+
+  inset: 0;
+
+  background:
+    linear-gradient(
+      180deg,
+      rgba(15,20,20,0.02) 30%,
+      rgba(15,20,20,0.45) 100%
+    );
+
+  pointer-events: none;
+}
+
+
+/* =========================================================
+   PLAY BUTTON
+========================================================= */
+
+.srs-modern-video-play {
+  position: absolute;
+
+  top: 50%;
+
+  left: 50%;
+
+  width: 66px;
+
+  height: 66px;
+
+  transform:
+    translate(-50%, -50%);
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  border-radius: 50%;
+
+  background:
+    rgba(255,255,255,0.93);
+
+  color: #252b2b;
+
+  box-shadow:
+    0 12px 35px rgba(0,0,0,0.20);
+
+  transition:
+    transform 0.3s ease,
+    background 0.3s ease,
+    color 0.3s ease;
+}
+
+
+.srs-modern-video-play span {
+  margin-left: 4px;
+
+  font-size: 18px;
+}
+
+
+.srs-modern-video:hover
+.srs-modern-video-play {
+  transform:
+    translate(-50%, -50%)
+    scale(1.08);
+
+  background: #8e9897;
+
+  color: #ffffff;
+}
+
+
+/* =========================================================
+   VIDEO LABEL
+========================================================= */
+
+.srs-modern-video-label {
+  position: absolute;
+
+  left: 20px;
+
+  bottom: 18px;
+
+  display: flex;
+
+  align-items: center;
+
+  gap: 10px;
+
+  color: #ffffff;
+
+  font-size: 9px;
+
+  font-weight: 700;
+
+  letter-spacing: 1.1px;
+
+  text-transform: uppercase;
+}
+
+
+.srs-modern-video-label-line {
+  width: 28px;
+
+  height: 1px;
+
+  background: #8e9897;
+}
+
+
+/* =========================================================
+   BIO
+========================================================= */
+
+.srs-modern-bio {
+  margin-top: 28px;
+
+  color: #575d5d;
+
+  font-size: 14px;
+
+  line-height: 1.76;
+}
+
+
+.srs-modern-bio p {
+  margin:
+    0
+    0
+    17px;
+}
+
+
+.srs-modern-bio p:last-child {
+  margin-bottom: 0;
+}
+
+
+/* =========================================================
+   TEAM BUTTON
+========================================================= */
+
+.srs-team-button-wrap {
+  margin-top: 28px;
+
+  padding-top: 23px;
+
+  border-top:
+    1px solid rgba(20,20,20,0.08);
+}
+
+
+.srs-team-button {
+  display: inline-flex;
+
+  align-items: center;
+
+  gap: 16px;
+
+  padding:
+    7px
+    8px
+    7px
+    22px;
+
+  border-radius: 100px;
+
+  background: #8e9897;
+
+  color: #ffffff !important;
+
+  text-decoration: none !important;
+
+  font-size: 10px;
+
+  font-weight: 700;
+
+  letter-spacing: 1px;
+
+  text-transform: uppercase;
+
+  box-shadow:
+    0 10px 28px rgba(0,0,0,0.12);
+
+  transition:
+    transform 0.3s ease,
+    background 0.3s ease,
+    box-shadow 0.3s ease;
+}
+
+
+.srs-team-button:hover {
+  background: #a3adac;
+
+  transform:
+    translateY(-3px);
+
+  box-shadow:
+    0 16px 35px rgba(0,0,0,0.16);
+}
+
+
+.srs-team-arrow {
+  width: 39px;
+
+  height: 39px;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  border-radius: 50%;
+
+  background:
+    rgba(255,255,255,0.18);
+
+  font-size: 17px;
+
+  transition:
+    transform 0.3s ease;
+}
+
+
+.srs-team-button:hover
+.srs-team-arrow {
+  transform:
+    rotate(45deg);
+}
+
+
+/* =========================================================
+   FORM CARD
+========================================================= */
+
+.srs-form-card {
+  position: relative;
+
+  width: 100%;
+
+  padding:
+    34px
+    24px
+    26px;
+
+  overflow: hidden;
+
+  border-radius: 28px;
+
+  background:
+    radial-gradient(
+      circle at 100% 0%,
+      rgba(142,152,151,0.16),
+      transparent 32%
+    ),
+    #202727;
+
+  color: #ffffff;
+
+  box-shadow:
+    0 25px 65px rgba(25,25,25,0.15);
+}
+
+
+/* =========================================================
+   FORM HEADER
+========================================================= */
+
+.srs-form-header {
+  position: relative;
+
+  z-index: 2;
+}
+
+
+.srs-form-eyebrow {
+  margin-bottom: 12px;
+
+  color: #d4dcdb;
+
+  font-size: 9px;
+
+  font-weight: 700;
+
+  letter-spacing: 2.3px;
+}
+
+
+.srs-form-heading {
+  margin: 0;
+
+  color: #ffffff;
+
+  font-size:
+    clamp(29px, 3vw, 38px);
+
+  line-height: 1;
+
+  font-weight: 600;
+
+  letter-spacing: -1.3px;
+}
+
+
+.srs-form-heading em {
+  display: block;
+
+  margin-top: 5px;
+
+  color: #d4dcdb;
+
+  font-family:
+    Georgia,
+    "Times New Roman",
+    serif;
+
+  font-weight: 500;
+
+  font-style: italic;
+}
+
+
+.srs-form-description {
+  max-width: 390px;
+
+  margin:
+    16px
+    0
+    0;
+
+  color:
+    rgba(255,255,255,0.67);
+
+  font-size: 13px;
+
+  line-height: 1.65;
+}
+
+
+.srs-form-divider {
+  position: relative;
+
+  z-index: 2;
+
+  width: 100%;
+
+  height: 1px;
+
+  margin:
+    22px
+    0
+    18px;
+
+  background:
+    rgba(255,255,255,0.10);
+}
+
+
+/* =========================================================
+   FORM EMBED WRAPPER
+========================================================= */
+
+.srs-form-embed {
+  position: relative;
+
+  z-index: 2;
+
+  width: 100%;
+
+  min-height: 760px;
+
+  overflow: hidden;
+
+  border-radius: 17px;
+
+  background: #ffffff;
+
+  box-shadow:
+    0 12px 35px rgba(0,0,0,0.12);
+}
+
+
+/* =========================================================
+   ACTUAL FORM IFRAME
+========================================================= */
+
+#srs-modern-contact-form {
+  display: block;
+
+  width: 100% !important;
+
+  min-width: 100% !important;
+
+  height: 780px;
+
+  min-height: 780px;
+
+  margin: 0;
+
+  padding: 0;
+
+  border: 0;
+
+  background: #ffffff;
+}
+
+
+/* =========================================================
+   FORM FOOTER
+========================================================= */
+
+.srs-form-footer {
+  position: relative;
+
+  z-index: 2;
+
+  margin-top: 18px;
+
+  display: flex;
+
+  align-items: center;
+
+  gap: 11px;
+
+  color:
+    rgba(255,255,255,0.42);
+
+  font-size: 8px;
+
+  font-weight: 700;
+
+  letter-spacing: 1.3px;
+
+  text-transform: uppercase;
+}
+
+
+.srs-form-footer-line {
+  width: 30px;
+
+  height: 1px;
+
+  background: #8e9897;
+}
+
+
+/* =========================================================
+   TABLET
+========================================================= */
+
+@media (max-width: 1000px) {
+
+  #srs-modern-profile-section {
+    padding:
+      65px
+      20px
+      160px;
+  }
+
+
+  .srs-modern-shell {
+    grid-template-columns:
+      minmax(0, 1.1fr)
+      minmax(340px, 0.9fr);
+
+    gap: 22px;
+  }
+
+
+  .srs-profile-card {
+    padding: 28px;
+  }
+
+
+  .srs-form-card {
+    padding:
+      28px
+      20px
+      24px;
+  }
+
+
+  .srs-form-embed {
+    min-height: 800px;
+  }
+
+
+  #srs-modern-contact-form {
+    height: 820px;
+
+    min-height: 820px;
+  }
+
+}
+
+
+/* =========================================================
+   STACK EARLIER ON SMALL LAPTOPS
+========================================================= */
+
+@media (max-width: 850px) {
+
+  .srs-modern-shell {
+    display: block;
+
+    max-width: 720px;
+  }
+
+
+  .srs-profile-card {
+    margin-bottom: 24px;
+  }
+
+
+  .srs-form-card {
+    width: 100%;
+  }
+
+
+  .srs-form-embed {
+    min-height: 790px;
+  }
+
+
+  #srs-modern-contact-form {
+    height: 810px;
+
+    min-height: 810px;
+  }
+
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 600px) {
+
+  #srs-modern-profile-section {
+    padding:
+      38px
+      14px
+      150px;
+  }
+
+
+  .srs-modern-shell {
+    max-width: 100%;
+  }
+
+
+  .srs-profile-card {
+    padding:
+      24px
+      18px;
+
+    margin-bottom: 18px;
+
+    border-radius: 21px;
+  }
+
+
+  .srs-profile-heading {
+    font-size:
+      clamp(34px, 10vw, 45px);
+
+    letter-spacing: -1.5px;
+  }
+
+
+  .srs-profile-company {
+    margin-bottom: 22px;
+
+    font-size: 18px;
+  }
+
+
+  .srs-modern-video {
+    border-radius: 16px;
+  }
+
+
+  .srs-modern-video-play {
+    width: 56px;
+
+    height: 56px;
+  }
+
+
+  .srs-modern-video-play span {
+    font-size: 16px;
+  }
+
+
+  .srs-modern-bio {
+    margin-top: 23px;
+
+    font-size: 14px;
+
+    line-height: 1.7;
+  }
+
+
+  /* FORM */
+
+  .srs-form-card {
+    padding:
+      26px
+      14px
+      22px;
+
+    border-radius: 21px;
+  }
+
+
+  .srs-form-heading {
+    font-size: 31px;
+  }
+
+
+  .srs-form-description {
+    font-size: 13px;
+  }
+
+
+  .srs-form-divider {
+    margin:
+      20px
+      0
+      16px;
+  }
+
+
+  .srs-form-embed {
+    min-height: 830px;
+
+    border-radius: 14px;
+  }
+
+
+  #srs-modern-contact-form {
+    height: 850px;
+
+    min-height: 850px;
+  }
+
+}
+
+
+/* =========================================================
+   SMALL MOBILE
+========================================================= */
+
+@media (max-width: 420px) {
+
+  #srs-modern-profile-section {
+    padding-bottom: 145px;
+  }
+
+
+  .srs-profile-card,
+  .srs-form-card {
+    border-radius: 18px;
+  }
+
+
+  .srs-profile-heading {
+    font-size: 34px;
+  }
+
+
+  .srs-form-heading {
+    font-size: 29px;
+  }
+
+
+  .srs-team-button {
+    font-size: 9px;
+
+    padding-left: 18px;
+  }
+
+
+  .srs-team-arrow {
+    width: 37px;
+
+    height: 37px;
+  }
+
+
+  .srs-modern-video-label {
+    display: none;
+  }
+
+
+  .srs-form-embed {
+    min-height: 860px;
+  }
+
+
+  #srs-modern-contact-form {
+    height: 880px;
+
+    min-height: 880px;
+  }
+
+}
+
+</style>
+
+
+
+<script>
+
+/* =========================================================
+   GHL FORM AUTO HEIGHT
+========================================================= */
+
+(function () {
+
+  const form =
+    document.getElementById(
+      "srs-modern-contact-form"
+    );
+
+
+  if (!form) return;
+
+
+  /* -----------------------------------------
+     DEFAULT RESPONSIVE HEIGHT
+  ----------------------------------------- */
+
+  function setDefaultFormHeight() {
+
+    let fallbackHeight = 780;
+
+
+    if (window.innerWidth <= 420) {
+
+      fallbackHeight = 880;
+
+    } else if (window.innerWidth <= 600) {
+
+      fallbackHeight = 850;
+
+    } else if (window.innerWidth <= 1000) {
+
+      fallbackHeight = 820;
+
+    }
+
+
+    /*
+      Only increase the form if it is currently
+      smaller than the safe fallback.
+    */
+
+    const currentHeight =
+      parseInt(form.style.height, 10) || 0;
+
+
+    if (currentHeight < fallbackHeight) {
+
+      form.style.height =
+        fallbackHeight + "px";
+
+    }
+
+  }
+
+
+  setDefaultFormHeight();
+
+
+  window.addEventListener(
+    "resize",
+    setDefaultFormHeight
+  );
+
+
+  /* -----------------------------------------
+     LISTEN FOR HEIGHT FROM EMBEDDED GHL FORM
+  ----------------------------------------- */
+
+  window.addEventListener(
+    "message",
+    function (event) {
+
+      if (!event.data) return;
+
+
+      let data = event.data;
+
+
+      try {
+
+        if (typeof data === "string") {
+
+          data =
+            JSON.parse(data);
+
+        }
+
+      } catch (e) {
+
+        return;
+
+      }
+
+
+      if (!data) return;
+
+
+      /*
+        GHL / embedded forms may use slightly
+        different names for the iframe height.
+      */
+
+      const receivedHeight =
+        Number(
+          data.height ||
+          data.frameHeight ||
+          data.iframeHeight ||
+          data.formHeight ||
+          0
+        );
+
+
+      if (
+        receivedHeight &&
+        receivedHeight > 400
+      ) {
+
+        /*
+          Add a little extra room so the submit
+          button never sits directly against the
+          iframe boundary.
+        */
+
+        const safeHeight =
+          receivedHeight + 35;
+
+
+        form.style.height =
+          safeHeight + "px";
+
+
+        const wrapper =
+          form.closest(
+            ".srs-form-embed"
+          );
+
+
+        if (wrapper) {
+
+          wrapper.style.minHeight =
+            safeHeight + "px";
+
+        }
+
+      }
+
+    }
+  );
+
+})();
+
+</script>

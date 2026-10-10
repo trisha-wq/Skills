@@ -1,0 +1,4 @@
+interface:
+  display_name: "Premium Advisor Website"
+  short_description: "Premium advisor sites with inline GHL section exports"
+  default_prompt: "Use $premium-advisor-website to build this advisor's Premium GHL site from the ClickUp link and connected Drive, WebPrez, and Vimeo sources."

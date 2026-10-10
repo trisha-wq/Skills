@@ -1,0 +1,4 @@
+interface:
+  display_name: "Vimeo Link Capture"
+  short_description: "Capture advisor 720p links using the Vimeo API"
+  default_prompt: "Use $vimeo-link-capture to capture the advisor's signed 720p links with my existing Vimeo API configuration."

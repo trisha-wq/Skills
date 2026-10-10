@@ -1,0 +1,579 @@
+<!-- =========================
+     GHL MODERN HERO SECTION
+========================= -->
+
+<section id="ghl-modern-hero">
+
+  <!-- Background Video -->
+  <video
+    id="ghl-hero-video"
+    autoplay
+    muted
+    loop
+    playsinline
+    preload="auto"
+  >
+    <source
+      src="https://assets.cdn.filesafe.space/QlANsOZzrrlPFQ1SZTH4/media/6a39622a71752c7f3efabcb7.mp4"
+      type="video/mp4"
+    >
+  </video>
+
+  <!-- Overlay -->
+  <div class="ghl-hero-overlay"></div>
+
+  <!-- Content -->
+  <div class="ghl-hero-inner">
+
+    <div class="ghl-hero-eyebrow">
+      <span></span>
+      {{custom_values.advisor_firm_name}}
+    </div>
+
+    <h1 class="ghl-hero-title">
+      Protect what you've built.
+      <br>
+      <em>Plan for what comes next.</em>
+    </h1>
+
+    <!-- Rotating Service -->
+    <div class="ghl-rotating-container">
+      <div id="ghl-rotating-text">
+        Estate Planning
+      </div>
+    </div>
+
+    <p class="ghl-hero-description">
+      Personalized strategies designed to help protect your assets,
+      reduce unnecessary risk, and create confidence for the future.
+    </p>
+
+    <!-- CTA -->
+    <a
+      href="{{custom_values.advisor_booking_url}}"
+      target="_blank"
+      rel="noopener"
+      class="ghl-hero-button"
+    >
+      <span>Schedule a Consultation</span>
+      <span class="ghl-button-arrow">↗</span>
+    </a>
+
+  </div>
+
+  <!-- Bottom Details -->
+  <div class="ghl-hero-bottom">
+
+    <div class="ghl-scroll-label">
+      <span></span>
+      EXPLORE OUR APPROACH
+    </div>
+
+    <div class="ghl-hero-tag">
+      Retirement · Wealth · Legacy
+    </div>
+
+  </div>
+
+</section>
+
+
+<style>
+
+/* =====================================
+   GHL HERO
+===================================== */
+
+#ghl-modern-hero {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  min-height: 680px;
+  overflow: hidden;
+  background: #222;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+/* VIDEO */
+
+#ghl-hero-video {
+  position: absolute;
+  top: 0;
+  left: 0;
+
+  width: 100%;
+  height: 100%;
+
+  object-fit: cover;
+
+  z-index: 0;
+}
+
+
+/* OVERLAY */
+
+.ghl-hero-overlay {
+  position: absolute;
+  inset: 0;
+
+  z-index: 1;
+
+  background:
+    linear-gradient(
+      90deg,
+      rgba(15, 20, 20, 0.80) 0%,
+      rgba(15, 20, 20, 0.58) 35%,
+      rgba(15, 20, 20, 0.22) 75%,
+      rgba(15, 20, 20, 0.15) 100%
+    ),
+    linear-gradient(
+      0deg,
+      rgba(15, 20, 20, 0.48) 0%,
+      transparent 50%
+    );
+}
+
+
+/* CONTENT */
+
+.ghl-hero-inner {
+  position: relative;
+
+  z-index: 2;
+
+  width: 90%;
+  max-width: 1200px;
+
+  height: 100%;
+
+  margin: 0 auto;
+
+  display: flex;
+  flex-direction: column;
+
+  justify-content: center;
+  align-items: flex-start;
+
+  padding: 80px 0 100px;
+}
+
+
+/* EYEBROW */
+
+.ghl-hero-eyebrow {
+  display: flex;
+  align-items: center;
+
+  gap: 12px;
+
+  margin-bottom: 24px;
+
+  color: rgba(255,255,255,0.85);
+
+  font-size: 11px;
+  font-weight: 700;
+
+  letter-spacing: 2.5px;
+}
+
+.ghl-hero-eyebrow span {
+  display: block;
+
+  width: 35px;
+  height: 1px;
+
+  background: #8e9897;
+}
+
+
+/* HEADLINE */
+
+.ghl-hero-title {
+  margin: 0;
+
+  max-width: 850px;
+
+  color: #ffffff;
+
+  font-size: clamp(46px, 6vw, 86px);
+
+  line-height: 0.98;
+
+  font-weight: 600;
+
+  letter-spacing: -3px;
+}
+
+.ghl-hero-title em {
+  color: #d4dcdb;
+
+  font-family: Georgia, "Times New Roman", serif;
+
+  font-weight: 600;
+
+  font-style: italic;
+}
+
+
+/* ROTATING TEXT */
+
+.ghl-rotating-container {
+  min-height: 70px;
+
+  margin-top: 28px;
+
+  display: flex;
+  align-items: center;
+}
+
+#ghl-rotating-text {
+  color: #8e9897;
+
+  font-size: clamp(30px, 4vw, 52px);
+
+  line-height: 1;
+
+  font-weight: 700;
+
+  letter-spacing: -1.5px;
+
+  opacity: 1;
+
+  transform: translateY(0);
+
+  transition:
+    opacity 0.55s ease,
+    transform 0.55s ease;
+}
+
+
+/* DESCRIPTION */
+
+.ghl-hero-description {
+  max-width: 560px;
+
+  margin: 25px 0 32px;
+
+  color: rgba(255,255,255,0.84);
+
+  font-size: 16px;
+
+  line-height: 1.7;
+
+  font-weight: 400;
+}
+
+
+/* CTA */
+
+.ghl-hero-button {
+  display: inline-flex;
+
+  align-items: center;
+
+  gap: 18px;
+
+  padding: 6px 7px 6px 25px;
+
+  border-radius: 100px;
+
+  background: #8e9897;
+
+  color: #ffffff !important;
+
+  text-decoration: none !important;
+
+  font-size: 13px;
+
+  font-weight: 700;
+
+  letter-spacing: 0.7px;
+
+  text-transform: uppercase;
+
+  box-shadow:
+    0 12px 35px rgba(0,0,0,0.25);
+
+  transition:
+    transform 0.3s ease,
+    box-shadow 0.3s ease,
+    background 0.3s ease;
+}
+
+.ghl-hero-button:hover {
+  background: #a3adac;
+
+  transform: translateY(-3px);
+
+  box-shadow:
+    0 18px 45px rgba(0,0,0,0.30);
+}
+
+
+/* ARROW */
+
+.ghl-button-arrow {
+  width: 43px;
+  height: 43px;
+
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 50%;
+
+  background: rgba(255,255,255,0.18);
+
+  font-size: 20px;
+
+  transition:
+    transform 0.3s ease,
+    background 0.3s ease;
+}
+
+.ghl-hero-button:hover .ghl-button-arrow {
+  transform: rotate(45deg);
+
+  background: rgba(255,255,255,0.30);
+}
+
+
+/* BOTTOM */
+
+.ghl-hero-bottom {
+  position: absolute;
+
+  z-index: 3;
+
+  left: 5%;
+  right: 5%;
+
+  bottom: 30px;
+
+  display: flex;
+
+  justify-content: space-between;
+
+  align-items: center;
+
+  color: rgba(255,255,255,0.65);
+
+  font-size: 10px;
+
+  font-weight: 600;
+
+  letter-spacing: 2px;
+}
+
+
+/* SCROLL LABEL */
+
+.ghl-scroll-label {
+  display: flex;
+
+  align-items: center;
+
+  gap: 12px;
+}
+
+.ghl-scroll-label span {
+  width: 42px;
+  height: 1px;
+
+  background: #8e9897;
+}
+
+
+/* TAG */
+
+.ghl-hero-tag {
+  text-transform: uppercase;
+
+  letter-spacing: 1.5px;
+}
+
+
+/* =====================================
+   TABLET
+===================================== */
+
+@media (max-width: 900px) {
+
+  #ghl-modern-hero {
+    min-height: 700px;
+  }
+
+  .ghl-hero-inner {
+    width: 88%;
+  }
+
+  .ghl-hero-title {
+    font-size: clamp(44px, 8vw, 70px);
+  }
+
+}
+
+
+/* =====================================
+   MOBILE
+===================================== */
+
+@media (max-width: 600px) {
+
+  #ghl-modern-hero {
+    height: 100svh;
+    min-height: 650px;
+  }
+
+  #ghl-hero-video {
+    object-position: 62% center;
+  }
+
+  .ghl-hero-overlay {
+    background:
+      linear-gradient(
+        90deg,
+        rgba(15,20,20,0.78),
+        rgba(15,20,20,0.35)
+      ),
+      linear-gradient(
+        0deg,
+        rgba(15,20,20,0.55),
+        transparent 60%
+      );
+  }
+
+  .ghl-hero-inner {
+    width: 88%;
+
+    padding:
+      70px
+      0
+      100px;
+  }
+
+  .ghl-hero-eyebrow {
+    font-size: 9px;
+
+    letter-spacing: 2px;
+
+    margin-bottom: 20px;
+  }
+
+  .ghl-hero-title {
+    font-size: clamp(40px, 12vw, 58px);
+
+    line-height: 1;
+
+    letter-spacing: -2px;
+  }
+
+  .ghl-rotating-container {
+    min-height: 50px;
+
+    margin-top: 22px;
+  }
+
+  #ghl-rotating-text {
+    font-size: clamp(27px, 8vw, 38px);
+
+    letter-spacing: -1px;
+  }
+
+  .ghl-hero-description {
+    max-width: 400px;
+
+    margin:
+      20px
+      0
+      27px;
+
+    font-size: 14px;
+
+    line-height: 1.6;
+  }
+
+  .ghl-hero-button {
+    font-size: 11px;
+
+    padding-left: 20px;
+  }
+
+  .ghl-button-arrow {
+    width: 39px;
+    height: 39px;
+  }
+
+  .ghl-hero-bottom {
+    bottom: 22px;
+  }
+
+  .ghl-hero-tag {
+    display: none;
+  }
+
+}
+
+</style>
+
+
+<script>
+
+(function() {
+
+  const services = [
+    "Estate Planning",
+    "Tax Mitigation",
+    "Risk Mitigation",
+    "Business Planning",
+    "Life Insurance",
+    "Annuities",
+    "Income Planning",
+    "Asset Preservation"
+  ];
+
+  let index = 0;
+
+  const element =
+    document.getElementById("ghl-rotating-text");
+
+  if (!element) return;
+
+
+  function rotateService() {
+
+    element.style.opacity = "0";
+
+    element.style.transform =
+      "translateY(10px)";
+
+    setTimeout(function() {
+
+      index++;
+
+      if (index >= services.length) {
+        index = 0;
+      }
+
+      element.textContent =
+        services[index];
+
+      element.style.opacity = "1";
+
+      element.style.transform =
+        "translateY(0)";
+
+    }, 550);
+
+  }
+
+
+  setInterval(
+    rotateService,
+    4000
+  );
+
+})();
+
+</script>

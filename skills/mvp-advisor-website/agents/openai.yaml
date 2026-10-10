@@ -1,0 +1,4 @@
+interface:
+  display_name: "MVP Advisor Website"
+  short_description: "Build advisor GHL sections from connected sources"
+  default_prompt: "Use $mvp-advisor-website to build this MVP advisor's GHL sections from their ClickUp task and connected Drive, Vimeo, and WebPrez sources, preserving the layout."
