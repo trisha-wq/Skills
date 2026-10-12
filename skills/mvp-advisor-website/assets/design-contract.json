@@ -1,0 +1,28 @@
+{
+  "design_id": "mvp-winston-v1",
+  "basis": "Existing neutral Winston Bramwell pilot templates; markup and styling unchanged",
+  "required_sections": [
+    "section-01.html",
+    "section-02.html",
+    "section-03.html",
+    "section-04.html",
+    "section-05.html",
+    "section-06.html",
+    "section-07.html",
+    "section-08.html"
+  ],
+  "optional_sections": [
+    "legacy-optional.html"
+  ],
+  "sha256": {
+    "legacy-optional.html": "b95f29156788950ca0a696ab95a69d82f7a478c729ca3c468d3fb7655d4eabd6",
+    "section-01.html": "2820f29d16b6c520d1d81faa6460a7b1ec694927614ea7e86ab469f9f11820c6",
+    "section-02.html": "08a082ea22ded3f78ea3e42c2426cda91cd76ac044bb4cf05fb6e892e45d87e3",
+    "section-03.html": "c3a94ef7d4f13c35788969d877e4181133a59ac215276ec0abb819ccd3d07ba6",
+    "section-04.html": "4bffcc099711b6b5a001413fbd802ffb9fbba52b86755d6537dd8458370f26b3",
+    "section-05.html": "31cead301e57d96a13be4c83bf0a3b45e40f7539c7aa32fcd495a2ef7281461d",
+    "section-06.html": "025fd2d55df651d6888dd59400b2431313967cff50c7a6dbc73ca1cb6d45b73b",
+    "section-07.html": "9e8a06daf0d195d191047fb153cd1687189ab0be23b11bc6438c594865264431",
+    "section-08.html": "707cd922c94866c245471e74647db0fa54c153fefcf01fc15794a0f308935ace"
+  }
+}

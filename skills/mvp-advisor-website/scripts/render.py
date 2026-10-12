@@ -2,12 +2,24 @@
 import argparse
 import csv
 import html
+import hashlib
 import json
 import re
 from pathlib import Path
+from html.parser import HTMLParser
 from urllib.parse import urlparse
 
 TOKEN = re.compile(r"\{\{custom_values\.([a-z0-9_]+)\}\}")
+
+
+def verify_template_integrity():
+    skill = Path(__file__).resolve().parents[1]
+    contract = json.loads((skill / 'assets/design-contract.json').read_text(encoding='utf-8'))
+    for name, expected in contract['sha256'].items():
+        path = skill / 'assets/template' / name
+        if not path.is_file() or hashlib.sha256(path.read_bytes()).hexdigest() != expected:
+            raise ValueError('MVP baseline template changed: ' + name + '. Review the design before explicitly updating its contract.')
+    return contract
 
 
 def normalize_css(code):
@@ -16,7 +28,26 @@ def normalize_css(code):
     return re.sub(r"\d+\s*,\s*\d+\s*,\s*\d+(?=\s*,)", "RGB", css)
 
 
+def layout_shape(code):
+    class Shape(HTMLParser):
+        def __init__(self):
+            super().__init__()
+            self.nodes = []
+        def handle_starttag(self, tag, attrs):
+            attrs = dict(attrs)
+            # Approved paragraph arrays add only unstyled p nodes.
+            if tag != 'p' or attrs.get('class') or attrs.get('id'):
+                self.nodes.append((tag, attrs.get('class', ''), attrs.get('id', '')))
+        def handle_endtag(self, tag):
+            if tag != 'p':
+                self.nodes.append(('/' + tag, '', ''))
+    parser = Shape()
+    parser.feed(code)
+    return parser.nodes
+
+
 def render(values_path, output, include_legacy=False):
+    design = verify_template_integrity()
     data = json.loads(Path(values_path).read_text(encoding="utf-8-sig"))
     values = dict(data.get("values", {}))
     if not isinstance(values.get("advisor_name"), str) or not values["advisor_name"].strip():
@@ -51,8 +82,9 @@ def render(values_path, output, include_legacy=False):
         raise ValueError("Use bios paragraph arrays instead of raw HTML values")
     folder = Path(__file__).resolve().parents[1] / "assets" / "template"
     output = Path(output).resolve()
-    if output == folder.resolve() or folder.resolve() in output.parents:
-        raise ValueError("Output must be outside installed template assets")
+    skill = Path(__file__).resolve().parents[1]
+    if output == skill or skill in output.parents:
+        raise ValueError("Output must be outside the installed skill")
     if output.exists() and any(output.iterdir()):
         raise ValueError("Use a new/empty output directory to preserve existing work")
     output.mkdir(parents=True, exist_ok=True)
@@ -82,11 +114,11 @@ def render(values_path, output, include_legacy=False):
             return css.replace("142,152,151,", rgb + ",")
         code = re.sub(r"<style\b[^>]*>.*?</style>", theme, code, flags=re.S | re.I)
         scripts = lambda text: re.findall(r"<script\b[^>]*>.*?</script>", text, re.S | re.I)
-        if normalize_css(original) != normalize_css(code) or scripts(original) != scripts(code):
+        if normalize_css(original) != normalize_css(code) or scripts(original) != scripts(code) or layout_shape(original) != layout_shape(code):
             raise ValueError(f"Layout or script changed in {source_name}")
         (output / f"section-{number:02d}.html").write_text(code, encoding="utf-8")
         sections.append(code)
-        checks.append({"section": number, "cssGeometryPreserved": True, "scriptsPreserved": True})
+        checks.append({"section": number, "cssGeometryPreserved": True, "scriptsPreserved": True, "domLayoutPreserved": True})
     combined = "\n\n".join(sections)
     (output / "all-sections.html").write_text(combined, encoding="utf-8")
     preview = '<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>' + html.escape(values["advisor_name"]) + '</title><style>body{margin:0}</style></head><body>' + combined + '</body></html>'
@@ -95,7 +127,7 @@ def render(values_path, output, include_legacy=False):
         writer = csv.writer(handle)
         writer.writerow(["key", "status"])
         writer.writerows((key, "needs_source_value") for key in sorted(missing))
-    report = {"advisor": values["advisor_name"], "sourceChecks": checks, "missing": sorted(missing), "renderedVerified": False, "playbackVerified": False, "published": False}
+    report = {"advisor": values["advisor_name"], "designId": design['design_id'], "templateIntegrityVerified": True, "sectionCount": len(sections), "sourceChecks": checks, "missing": sorted(missing), "renderedVerified": False, "playbackVerified": False, "published": False}
     (output / "verification.json").write_text(json.dumps(report, indent=2), encoding="utf-8")
     (output / "source-manifest.json").write_text(json.dumps(data.get("sources", {}), indent=2), encoding="utf-8")
     print(f"Rendered {len(sections)} sections; {len(missing)} unresolved values. Output: {output}")

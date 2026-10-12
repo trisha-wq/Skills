@@ -1,11 +1,17 @@
 ---
 name: premium-advisor-website
-description: Build or update Premium advisor GHL websites from a ClickUp task, Google Drive assets, WebPrez subaccount links, and Vimeo videos; deliver separate Custom HTML sections with CSS included. Use for Premium advisor projects, distinct from the MVP advisor template.
+description: Build or update Premium advisor GHL websites using the portable Ardie/TBFGP page templates, approved advisor sources, and separate inline HTML sections. Preserve the chosen design; distinct from the Winston MVP template.
 ---
 
 # Premium advisor website
 
-A ClickUp task link is the starting input. Discover the advisor's linked assets and source records before asking for individual fields. Carry forward the Premium design and GHL export conventions from the Pinnacle project, while collecting each new advisor's own facts and URLs.
+A ClickUp task link is the starting input. Discover the advisor's linked assets and source records before asking for individual fields. The default Premium design is the Ardie Baxter/TBFGP layout packaged in `assets/template/`, not a reconstruction from a style description or the historical Pinnacle CSS.
+
+## Design selection
+
+Use the user's explicitly selected current code/reference first. Otherwise use `premium-ardie-tbfgp-v1` from `assets/design-contract.json`: 56 complete sections across eight pages. Do not use the MVP/Winston layout for Premium. Record the chosen design ID/reference and any explicitly approved departures in the task manifest.
+
+For the bundled design, use the supplied renderer and change advisor content, verified destinations, images, and requested branding only. Preserve section order, containers, card inventory, typography, spacing, responsive breakpoints, and interactions. Missing assets or video links are content gaps, not permission to remove sections or redesign them. Do not rebuild from screenshots, prose, or memory when the template is available. Do not silently edit template hashes to make a failing check pass.
 
 ## Intake and sources
 
@@ -15,7 +21,14 @@ Keep a task-local source manifest with advisor identity, approved text, source t
 
 ## Preserve the Premium website
 
-Read [references/premium-conventions.md](references/premium-conventions.md) before building pages or section exports. Prefer the user's supplied/current code. For the original Pinnacle project, consult the local reference paths in that file. The bundled styles.css and premium.css preserve the original Premium design cascade as a styling baseline; they contain no advisor content or playback signatures. Apply styles.css first, then premium.css. Honor requested branding and edits rather than treating Pinnacle's personal content or exact page count as universal.
+Read [references/premium-conventions.md](references/premium-conventions.md) before building pages or section exports, then [references/fields.md](references/fields.md) for the renderer values. Use `assets/template/` for the bundled design; each section already includes its scoped CSS and required scripts. The older `assets/styles.css` and `assets/premium.css` are historical Pinnacle resources, not the default and not an additional global stylesheet to apply over these sections.
+
+```text
+python scripts/render.py --values /absolute/path/advisor-values.json --output /absolute/path/new-advisor-output
+python scripts/render.py --values /absolute/path/advisor-values.json --output /absolute/path/new-advisor-output --verify-only
+```
+
+Use an available Python runtime and task-local values/output paths. The renderer checks the pinned template hashes, exact content-only substitutions, all 56 section files, unique IDs, and the 14/14/14 video inventory. It cannot establish playback identity, image quality, browser rendering, or publication. For an explicitly supplied different layout, preserve that task-local source instead and record why the default contract does not apply; never claim the bundled checks verified an override.
 
 Maintain responsive geometry, typography, source copy, media mapping, navigation, and existing interactions unless the user requests a change. Generate local code and previews in the current task workspace, not inside the installed skill.
 
@@ -35,6 +48,6 @@ Provide a ZIP, a combined local preview, and brief paste-order instructions. GHL
 
 Check that each selected Drive image and Vimeo thumbnail/poster has a verified GHL-hosted URL in the asset manifest and that all affected section exports, previews, and generation sources use it. Check unique IDs, internal navigation and anchors, hosted assets, exact approved copy, correct advisor destinations, card counts and identities, and script initialization. Compare a narrow correction against the previous content so URLs/layout stay intact when only a title is requested. Update source manifests and affected exports/previews/ZIPs so rebuilding does not undo the change.
 
-Preview desktop and mobile when layout or interactive behavior changes; exercise menus, tabs, filtering, empty results, accordions, and pause controls as applicable. For a title-only edit, source-level checks are sufficient. State what was verified separately from untested playback or live GHL installation. Report material missing assets explicitly instead of guessing or claiming completion.
+For new builds, preview every requested page at desktop and mobile widths and visually compare it with the selected template/reference, not merely a generic overflow test. Confirm the actual viewport width; inspect loaded images, section order, fonts, spacing, roster aspect ratio, and footer. Exercise menus, tabs, filtering, empty results, accordions, and pause controls as applicable. Preserve all four Home video cards and all three library categories even while destinations are unavailable. For later title/link-only edits, use source-level checks plus targeted destination verification; broaden visual checks when geometry changes. State what was verified separately from untested playback or live GHL installation. Report material missing assets explicitly instead of guessing or claiming completion.
 
 Local website generation remains the default publishing scope; hosting selected images in GHL is a required asset-preparation step, separate from installing or publishing pages. Uploads must be authorized in the current request/session and target the verified advisor location. If upload access or authorization is missing, prepare the asset inventory and local files, identify the specific blocker, and request only the missing access or authorization. Do not silently substitute Drive/Vimeo image URLs or claim the GHL asset-hosting step is complete. Publishing, changing GHL settings, modifying sharing permissions, updating ClickUp status, or messaging anyone requires authorization in the current request/session. Do not add an approval step to already authorized local work.
