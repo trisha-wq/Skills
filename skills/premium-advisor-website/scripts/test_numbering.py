@@ -32,6 +32,28 @@ class NumberingTests(unittest.TestCase):
         source = self.wrap('<script>const label="<span class=\'srs-partner-index\'>1</span>";</script>')
         self.assertEqual(without_numbering(source), source)
 
+    def test_services_uses_advisor_elder_care_link_and_removes_quote(self):
+        elder_care = 'https://smartmoney.talk/n-n-2vw3dv-AdvisorIdentity-n.VerifiedLink'
+        data = {'values': {'advisor_name': 'Test Advisor', 'library_risk_02_url': elder_care, 'bridge_url': 'https://example.com/wrong-bridge', 'instant_quote_url': 'https://example.com/quote'}}
+        values, paragraphs = render.prepare(data, render.contract())
+        self.assertEqual(values['bridge_url'], elder_care)
+        original = (render.TEMPLATES / 'ghl-services-sections-inline/05-planning-resources.html').read_text(encoding='utf-8')
+        result, missing = render.substitute(original, values, paragraphs)
+        self.assertIn('href="' + elder_care + '"', result)
+        self.assertNotIn('Instant Quote', result)
+        self.assertNotIn('instant life insurance quote', result)
+        self.assertNotIn('instant_quote_url', missing)
+        self.assertNotIn('example.com', result)
+
+    def test_services_missing_or_wrong_video_is_not_substituted(self):
+        values, paragraphs = render.prepare({'values': {'advisor_name': 'Test Advisor', 'bridge_url': 'https://example.com/unverified'}}, render.contract())
+        original = (render.TEMPLATES / 'ghl-services-sections-inline/05-planning-resources.html').read_text(encoding='utf-8')
+        result, missing = render.substitute(original, values, paragraphs)
+        self.assertIn('data-unresolved="bridge_url"', result)
+        self.assertNotIn('example.com', result)
+        with self.assertRaises(ValueError):
+            render.prepare({'values': {'advisor_name': 'Test Advisor', 'library_risk_02_url': 'https://smartmoney.talk/n-n-WrongVideo-Advisor-n.Link'}}, render.contract())
+
     def test_line_endings_and_entities(self):
         source = self.wrap('<span class="srs-partner-index">&#49;</span>\r\n<p>Phone 469-853-5696</p>')
         result = without_numbering(source)

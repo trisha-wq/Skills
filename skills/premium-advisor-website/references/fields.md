@@ -6,6 +6,8 @@ Identity: advisor_name (required), advisor_full_name, advisor_first_name, adviso
 
 Destinations: booking_url, linkedin_url, map_url, contact_form_url, stress_test_url, estateplan_invite_url, payment_url, bridge_url, instant_quote_url, registration_url. Keep these actions separate; do not substitute a booking/contact form for event registration or copy reference-advisor IDs. Internal page routes stay in the template; adapt final slugs only when confirmed and record that explicit change.
 
+For Services planning resources, `bridge_url` is derived from the advisor's verified `library_risk_02_url` (Asset Based Elder Care, WebPrez video identity `2vw3dv`, WITHOUT Viewing Notice). A separately supplied `bridge_url` is ignored; missing verified elder-care links keep the button disabled. `instant_quote_url` is accepted only for legacy input compatibility and ignored: the quote button and supporting copy are omitted. These defaults are checked by the renderer's explicit output policy.
+
 Images: logo_url, headshot_url, roster_url use verified original `https://assets.cdn.filesafe.space/` URLs. roster_width and roster_height are positive integer strings from the actual original image metadata. Use the high-resolution original, not a transformed media grid preview.
 
 Vimeo slots: video_advisor_intro_url/title/thumbnail, video_registration_url/title/thumbnail, video_webinar_url/title/thumbnail. Home has home_video_01_url/thumbnail through home_video_04_url/thumbnail. Library Kai-Zen slots use library_kai_zen_01_url/thumbnail through 14. Playback URLs must be the complete signed Vimeo 720p file link; thumbnails must be verified GHL-hosted images. Source identity checks are still required; URL-shape validation alone does not prove a correct video.

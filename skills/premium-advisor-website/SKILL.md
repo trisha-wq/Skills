@@ -19,6 +19,10 @@ The default renderer applies the approved `unnumbered-v1` output policy: remove 
 
 `scripts/numbering.py` implements this policy without changing the pinned template files or hashes. Verification checks advisor substitutions plus the explicit output policy, and does not claim a content-only or CSS-preserving transformation. Apply the same helper to task-local adaptations; do not reinstate numbering from a raw baseline copy.
 
+## Services planning resources
+
+Omit the Get an Instant Quote button and its supporting quote copy. Discover The Bridge must open the selected advisor's verified WebPrez WITHOUT Viewing Notice link for Asset Based Elder Care (`library_risk_02_url`, video identity `2vw3dv`). The renderer derives `bridge_url` from that slot; it does not reuse another advisor's link or a separately supplied Bridge destination. If the verified slot is missing, keep Discover The Bridge disabled and report the missing link. The approved `services-planning-resources-v1` output policy applies this behavior without editing pinned baseline hashes.
+
 ## Intake and sources
 
 Read [references/source-workflow.md](references/source-workflow.md) when gathering content. Inspect currently available connectors and authenticated browser state; a skill does not connect accounts or preserve a signed-in session. Prefer connectors for supported reads and supported browser automation for ClickUp, WebPrez, or Vimeo when needed. Read the corresponding service/browser skill when using it. Ask for sign-in or missing access only after identifying the specific blocker. Never store passwords, cookies, access tokens, or session state in this skill.

@@ -13,6 +13,7 @@ from numbering import POLICY, without_numbering
 SKILL = Path(__file__).resolve().parents[1]
 TEMPLATES = SKILL / 'assets/template'
 TOKEN = re.compile(r'\{\{([a-z0-9_]+)\}\}')
+OUTPUT_POLICIES = [POLICY, 'services-planning-resources-v1']
 
 
 def contract():
@@ -30,6 +31,8 @@ def prepare(data, design):
         raise ValueError('values.advisor_name is required')
     if set(values) - set(design['tokens']):
         raise ValueError('Unknown values: ' + ', '.join(sorted(set(values) - set(design['tokens']))))
+    values.pop('instant_quote_url', None)
+    values['bridge_url'] = values.get('library_risk_02_url', '')
     for key, value in values.items():
         if not isinstance(value, str):
             raise ValueError(key + ' must be a string')
@@ -51,6 +54,8 @@ def prepare(data, design):
             elif key.startswith(('library_risk_', 'library_tax_')):
                 if parsed.hostname != 'smartmoney.talk' or '/n-n-' not in parsed.path:
                     raise ValueError(key + ' requires the advisor-specific WebPrez WITHOUT Viewing Notice link')
+                if key == 'library_risk_02_url' and not parsed.path.startswith('/n-n-2vw3dv-'):
+                    raise ValueError(key + ' must identify the Asset Based Elder Care video')
             elif key.startswith(('video_', 'home_video_', 'library_kai_zen_')):
                 if parsed.hostname != 'player.vimeo.com' or '/rendition/720p/' not in parsed.path or 'signature=' not in parsed.query:
                     raise ValueError(key + ' requires the complete signed Vimeo 720p file URL')
@@ -68,6 +73,8 @@ def prepare(data, design):
 
 
 def substitute(original, values, paragraphs):
+    original = re.sub(r'<a\b[^>]*href="\{\{instant_quote_url\}\}"[^>]*>.*?</a>', '', original, flags=re.S)
+    original = original.replace('Learn about The Bridge or explore an instant life insurance quote through our existing partner resources.', 'Learn about The Bridge through our existing partner resources.')
     missing = set()
     def replace(match):
         key = match[1]
@@ -109,7 +116,7 @@ def verify(data, output):
         expected, unresolved = substitute((TEMPLATES / relative).read_text(encoding='utf-8'), values, paragraphs)
         actual = (output / relative).read_text(encoding='utf-8')
         if expected != actual:
-            raise ValueError('Content and unnumbered output policy check failed: ' + relative)
+            raise ValueError('Content and approved output policies check failed: ' + relative)
         missing.update(unresolved)
         all_code.append(actual)
     inventory = Inventory()
@@ -118,7 +125,7 @@ def verify(data, output):
         raise ValueError('Duplicate IDs across sections')
     if inventory.categories != design['library_categories']:
         raise ValueError('Video categories or card counts changed')
-    return {'designId': design['design_id'], 'reference': design['reference_url'], 'sectionCounts': design['section_counts'], 'templateIntegrityVerified': True, 'contentOnlyVerified': False, 'approvedOutputPolicy': POLICY, 'outputPolicyVerified': True, 'cssAndScriptsPreserved': False, 'scriptsPreserved': True, 'uniqueIdsVerified': True, 'missing': sorted(missing), 'allValuesPresent': not missing, 'readyForInstallation': False, 'destinationsIdentityVerified': False, 'renderedVerified': False, 'playbackVerified': False, 'published': False}
+    return {'designId': design['design_id'], 'reference': design['reference_url'], 'sectionCounts': design['section_counts'], 'templateIntegrityVerified': True, 'contentOnlyVerified': False, 'approvedOutputPolicy': POLICY, 'approvedOutputPolicies': OUTPUT_POLICIES, 'outputPolicyVerified': True, 'cssAndScriptsPreserved': False, 'scriptsPreserved': True, 'uniqueIdsVerified': True, 'missing': sorted(missing), 'allValuesPresent': not missing, 'readyForInstallation': False, 'destinationsIdentityVerified': False, 'renderedVerified': False, 'playbackVerified': False, 'published': False}
 
 
 def render(values_path, output):
@@ -155,7 +162,7 @@ def render(values_path, output):
         writer = csv.writer(handle)
         writer.writerow(['key', 'status'])
         writer.writerows((key, 'needs_verified_source') for key in report['missing'])
-    (output / 'source-manifest.json').write_text(json.dumps({'designId': design['design_id'], 'approvedOutputPolicy': POLICY, 'reference': design['reference_url'], 'sectionFiles': design['section_files'], 'sources': data.get('sources', {})}, indent=2) + '\n', encoding='utf-8')
+    (output / 'source-manifest.json').write_text(json.dumps({'designId': design['design_id'], 'approvedOutputPolicy': POLICY, 'approvedOutputPolicies': OUTPUT_POLICIES, 'reference': design['reference_url'], 'sectionFiles': design['section_files'], 'sources': data.get('sources', {})}, indent=2) + '\n', encoding='utf-8')
     print('Rendered 56 Premium sections with the unnumbered output policy across eight pages; ' + str(len(report['missing'])) + ' unresolved values. Not published.')
     return report
 
