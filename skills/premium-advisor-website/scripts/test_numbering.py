@@ -22,6 +22,7 @@ class NumberingTests(unittest.TestCase):
         self.assertEqual(result.count('&rarr;'), 2)
         self.assertIn('grid-template-columns:minmax(0,1fr) auto', result)
         self.assertIn('.pfg-resource-action{grid-column:auto}', result)
+        self.assertIn('@media(max-width:1000px)', result)
 
     def test_substantive_numbers(self):
         source = self.wrap('<p>469-853-5696, 1997, $97, 70%, 21st Century, 60 Seconds, 14 videos</p><span>2026</span><h3>21st Century Trust Funding Method</h3>')

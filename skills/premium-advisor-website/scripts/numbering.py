@@ -75,7 +75,7 @@ def without_numbering(source):
     if 'tab' in parser.kinds:
         css.append(f'{root} .pfg-path-tabs button span[aria-hidden]{{font-family:inherit;font-size:inherit;font-style:normal;opacity:1}}')
     if 'resource' in parser.kinds:
-        css.append(f'{root} .pfg-resource-panel{{grid-template-columns:minmax(0,1fr) auto}}{root} .pfg-resource-action{{grid-column:auto}}@media(max-width:1100px){{{root} .pfg-resource-panel{{grid-template-columns:1fr}}}}')
+        css.append(f'{root} .pfg-resource-panel{{grid-template-columns:minmax(0,1fr) auto}}{root} .pfg-resource-action{{grid-column:auto}}@media(max-width:1000px){{{root} .pfg-resource-panel{{grid-template-columns:1fr}}}}')
     if css:
         source = source.replace('</style>', '\n/* Approved unnumbered output policy. */\n' + ''.join(css) + '\n</style>', 1)
     return source
