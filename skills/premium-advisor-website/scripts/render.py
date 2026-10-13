@@ -1,4 +1,4 @@
-"""Render the portable Ardie-based Premium sections using content-only substitutions."""
+"""Render pinned Ardie-based sections with advisor content and unnumbered output."""
 import argparse
 import csv
 import hashlib
@@ -8,6 +8,7 @@ import re
 from html.parser import HTMLParser
 from pathlib import Path
 from urllib.parse import urlparse
+from numbering import POLICY, without_numbering
 
 SKILL = Path(__file__).resolve().parents[1]
 TEMPLATES = SKILL / 'assets/template'
@@ -79,7 +80,7 @@ def substitute(original, values, paragraphs):
     result = TOKEN.sub(replace, original)
     # Keep unavailable actions in place, but never navigate to placeholder URLs.
     result = re.sub(r'href="\{\{([a-z0-9_]+)\}\}"', lambda m: 'aria-disabled="true" data-unresolved="' + m[1] + '"', result)
-    return result, missing
+    return without_numbering(result), missing
 
 
 class Inventory(HTMLParser):
@@ -108,7 +109,7 @@ def verify(data, output):
         expected, unresolved = substitute((TEMPLATES / relative).read_text(encoding='utf-8'), values, paragraphs)
         actual = (output / relative).read_text(encoding='utf-8')
         if expected != actual:
-            raise ValueError('Content-only template check failed: ' + relative)
+            raise ValueError('Content and unnumbered output policy check failed: ' + relative)
         missing.update(unresolved)
         all_code.append(actual)
     inventory = Inventory()
@@ -117,7 +118,7 @@ def verify(data, output):
         raise ValueError('Duplicate IDs across sections')
     if inventory.categories != design['library_categories']:
         raise ValueError('Video categories or card counts changed')
-    return {'designId': design['design_id'], 'reference': design['reference_url'], 'sectionCounts': design['section_counts'], 'templateIntegrityVerified': True, 'contentOnlyVerified': True, 'cssAndScriptsPreserved': True, 'uniqueIdsVerified': True, 'missing': sorted(missing), 'allValuesPresent': not missing, 'readyForInstallation': False, 'destinationsIdentityVerified': False, 'renderedVerified': False, 'playbackVerified': False, 'published': False}
+    return {'designId': design['design_id'], 'reference': design['reference_url'], 'sectionCounts': design['section_counts'], 'templateIntegrityVerified': True, 'contentOnlyVerified': False, 'approvedOutputPolicy': POLICY, 'outputPolicyVerified': True, 'cssAndScriptsPreserved': False, 'scriptsPreserved': True, 'uniqueIdsVerified': True, 'missing': sorted(missing), 'allValuesPresent': not missing, 'readyForInstallation': False, 'destinationsIdentityVerified': False, 'renderedVerified': False, 'playbackVerified': False, 'published': False}
 
 
 def render(values_path, output):
@@ -154,8 +155,8 @@ def render(values_path, output):
         writer = csv.writer(handle)
         writer.writerow(['key', 'status'])
         writer.writerows((key, 'needs_verified_source') for key in report['missing'])
-    (output / 'source-manifest.json').write_text(json.dumps({'designId': design['design_id'], 'reference': design['reference_url'], 'sectionFiles': design['section_files'], 'sources': data.get('sources', {})}, indent=2) + '\n', encoding='utf-8')
-    print('Rendered 56 locked Premium sections across eight pages; ' + str(len(report['missing'])) + ' unresolved values. Not published.')
+    (output / 'source-manifest.json').write_text(json.dumps({'designId': design['design_id'], 'approvedOutputPolicy': POLICY, 'reference': design['reference_url'], 'sectionFiles': design['section_files'], 'sources': data.get('sources', {})}, indent=2) + '\n', encoding='utf-8')
+    print('Rendered 56 Premium sections with the unnumbered output policy across eight pages; ' + str(len(report['missing'])) + ' unresolved values. Not published.')
     return report
 
 

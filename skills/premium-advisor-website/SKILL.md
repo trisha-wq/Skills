@@ -13,6 +13,12 @@ Use the user's explicitly selected current code/reference first. Otherwise use `
 
 For the bundled design, use the supplied renderer and change advisor content, verified destinations, images, and requested branding only. Preserve section order, containers, card inventory, typography, spacing, responsive breakpoints, and interactions. Missing assets or video links are content gaps, not permission to remove sections or redesign them. Do not rebuild from screenshots, prose, or memory when the template is available. Do not silently edit template hashes to make a failing check pass.
 
+## Numbering policy
+
+The default renderer applies the approved `unnumbered-v1` output policy: remove decorative numbering from planning tabs, service cards, event topics, planning-process labels, partner profiles, and Stress Test resources. Preserve phone numbers, dates, prices, percentages, video counts, and substantive titles. Keep arrow icons and apply the policy's scoped column adjustments where a number column is removed. Numbered export filenames remain the GHL paste order.
+
+`scripts/numbering.py` implements this policy without changing the pinned template files or hashes. Verification checks advisor substitutions plus the explicit output policy, and does not claim a content-only or CSS-preserving transformation. Apply the same helper to task-local adaptations; do not reinstate numbering from a raw baseline copy.
+
 ## Intake and sources
 
 Read [references/source-workflow.md](references/source-workflow.md) when gathering content. Inspect currently available connectors and authenticated browser state; a skill does not connect accounts or preserve a signed-in session. Prefer connectors for supported reads and supported browser automation for ClickUp, WebPrez, or Vimeo when needed. Read the corresponding service/browser skill when using it. Ask for sign-in or missing access only after identifying the specific blocker. Never store passwords, cookies, access tokens, or session state in this skill.
@@ -28,7 +34,7 @@ python scripts/render.py --values /absolute/path/advisor-values.json --output /a
 python scripts/render.py --values /absolute/path/advisor-values.json --output /absolute/path/new-advisor-output --verify-only
 ```
 
-Use an available Python runtime and task-local values/output paths. The renderer checks the pinned template hashes, exact content-only substitutions, all 56 section files, unique IDs, and the 14/14/14 video inventory. It cannot establish playback identity, image quality, browser rendering, or publication. For an explicitly supplied different layout, preserve that task-local source instead and record why the default contract does not apply; never claim the bundled checks verified an override.
+Use an available Python runtime and task-local values/output paths. The renderer checks the unchanged pinned template hashes, exact advisor substitutions plus the unnumbered output policy, all 56 section files, unique IDs, and the 14/14/14 video inventory. Run `python scripts/test_numbering.py` after editing the numbering policy or renderer. It cannot establish playback identity, image quality, browser rendering, or publication. For an explicitly supplied different layout, preserve that task-local source instead and record why the default contract does not apply; never claim the bundled checks verified an override.
 
 Maintain responsive geometry, typography, source copy, media mapping, navigation, and existing interactions unless the user requests a change. Generate local code and previews in the current task workspace, not inside the installed skill.
 

@@ -8,6 +8,8 @@ Default inventory: Home 12; About 8; Services 7; Videos 5; Events 5; Legacy Stor
 
 Each block owns its CSS, IDs, and script initialization. Preserve the wrapper and inner markup. Set the first GHL outer section to Sticky Top when using the sticky header, and set surrounding GHL padding/margins to zero. Do not add global historical CSS on top. Change only documented content/color placeholders with the renderer; theme colors do not change geometry.
 
+The approved `unnumbered-v1` renderer output policy removes decorative numeric spans and numeric step prefixes, preserves arrow icons, and adjusts service/tab styling and resource grid columns so no empty number column remains. The pinned template files and hashes remain unchanged. Export filenames stay numbered for paste order; meaningful numeric content stays intact. This explicit output policy is an exception to preserving the baseline's inner markup and CSS unchanged.
+
 For the roster, select the original high-resolution advisor artwork, inspect its natural dimensions, and upload that original to the verified advisor GHL account. Record its width/height and returned CDN URL. Do not stretch a low-resolution website preview to desktop width or use the GHL media grid's transformed thumbnail URL. At the template's roughly 1240-pixel maximum content width, prefer an original at least 2480 pixels wide when available. Report a source-quality limitation instead of inventing detail.
 
 ## Historical Pinnacle reference
