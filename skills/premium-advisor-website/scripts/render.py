@@ -9,12 +9,13 @@ from html.parser import HTMLParser
 from pathlib import Path
 from urllib.parse import urlparse
 from numbering import POLICY, without_numbering
+from background_videos import POLICY as BACKGROUND_VIDEO_POLICY, apply_background_video, assign_background, validate_background
 from legacy_pricing import POLICY as LEGACY_PRICING_POLICY, apply_legacy_pricing
 
 SKILL = Path(__file__).resolve().parents[1]
 TEMPLATES = SKILL / 'assets/template'
 TOKEN = re.compile(r'\{\{([a-z0-9_]+)\}\}')
-OUTPUT_POLICIES = [LEGACY_PRICING_POLICY, POLICY, 'services-planning-resources-v1']
+OUTPUT_POLICIES = [BACKGROUND_VIDEO_POLICY, LEGACY_PRICING_POLICY, POLICY, 'services-planning-resources-v1']
 
 
 def contract():
@@ -27,6 +28,8 @@ def contract():
 
 
 def prepare(data, design):
+    if data.get('background_video_url'):
+        validate_background(data['background_video_url'])
     values = dict(data.get('values', {}))
     if not isinstance(values.get('advisor_name'), str) or not values['advisor_name'].strip():
         raise ValueError('values.advisor_name is required')
@@ -73,7 +76,8 @@ def prepare(data, design):
     return values, paragraphs
 
 
-def substitute(original, values, paragraphs):
+def substitute(original, values, paragraphs, background_video_url=None):
+    original = apply_background_video(original, background_video_url)
     original = apply_legacy_pricing(original)
     original = re.sub(r'<a\b[^>]*href="\{\{instant_quote_url\}\}"[^>]*>.*?</a>', '', original, flags=re.S)
     original = original.replace('Learn about The Bridge or explore an instant life insurance quote through our existing partner resources.', 'Learn about The Bridge through our existing partner resources.')
@@ -115,7 +119,7 @@ def verify(data, output):
         raise ValueError('Missing, extra, or reordered section files')
     all_code, missing = [], set()
     for relative in sorted(expected_files):
-        expected, unresolved = substitute((TEMPLATES / relative).read_text(encoding='utf-8'), values, paragraphs)
+        expected, unresolved = substitute((TEMPLATES / relative).read_text(encoding='utf-8'), values, paragraphs, background_video_url=data.get('background_video_url'))
         actual = (output / relative).read_text(encoding='utf-8')
         if expected != actual:
             raise ValueError('Content and approved output policies check failed: ' + relative)
@@ -127,10 +131,10 @@ def verify(data, output):
         raise ValueError('Duplicate IDs across sections')
     if inventory.categories != design['library_categories']:
         raise ValueError('Video categories or card counts changed')
-    return {'designId': design['design_id'], 'reference': design['reference_url'], 'sectionCounts': design['section_counts'], 'templateIntegrityVerified': True, 'contentOnlyVerified': False, 'approvedOutputPolicy': POLICY, 'approvedOutputPolicies': OUTPUT_POLICIES, 'outputPolicyVerified': True, 'cssAndScriptsPreserved': False, 'scriptsPreserved': True, 'uniqueIdsVerified': True, 'missing': sorted(missing), 'allValuesPresent': not missing, 'readyForInstallation': False, 'destinationsIdentityVerified': False, 'renderedVerified': False, 'playbackVerified': False, 'published': False}
+    return {'backgroundVideoUrl': data.get('background_video_url'), 'designId': design['design_id'], 'reference': design['reference_url'], 'sectionCounts': design['section_counts'], 'templateIntegrityVerified': True, 'contentOnlyVerified': False, 'approvedOutputPolicy': POLICY, 'approvedOutputPolicies': OUTPUT_POLICIES, 'outputPolicyVerified': True, 'cssAndScriptsPreserved': False, 'scriptsPreserved': True, 'uniqueIdsVerified': True, 'missing': sorted(missing), 'allValuesPresent': not missing, 'readyForInstallation': False, 'destinationsIdentityVerified': False, 'renderedVerified': False, 'playbackVerified': False, 'published': False}
 
 
-def render(values_path, output):
+def render(values_path, output, rotation_state=None):
     data = json.loads(Path(values_path).read_text(encoding='utf-8-sig'))
     design = contract()
     values, paragraphs = prepare(data, design)
@@ -139,12 +143,13 @@ def render(values_path, output):
         raise ValueError('Output must be outside the installed skill')
     if output.exists() and any(output.iterdir()):
         raise ValueError('Use a new/empty output directory to preserve existing work')
+    assign_background(data, values_path, rotation_state)
     output.mkdir(parents=True, exist_ok=True)
     pages = {}
     for page, files in design['section_files'].items():
         pages[page] = []
         for relative in files:
-            rendered, _ = substitute((TEMPLATES / relative).read_text(encoding='utf-8'), values, paragraphs)
+            rendered, _ = substitute((TEMPLATES / relative).read_text(encoding='utf-8'), values, paragraphs, background_video_url=data.get('background_video_url'))
             target = output / relative
             target.parent.mkdir(parents=True, exist_ok=True)
             target.write_text(rendered, encoding='utf-8')
@@ -164,7 +169,7 @@ def render(values_path, output):
         writer = csv.writer(handle)
         writer.writerow(['key', 'status'])
         writer.writerows((key, 'needs_verified_source') for key in report['missing'])
-    (output / 'source-manifest.json').write_text(json.dumps({'designId': design['design_id'], 'approvedOutputPolicy': POLICY, 'approvedOutputPolicies': OUTPUT_POLICIES, 'reference': design['reference_url'], 'sectionFiles': design['section_files'], 'sources': data.get('sources', {})}, indent=2) + '\n', encoding='utf-8')
+    (output / 'source-manifest.json').write_text(json.dumps({'backgroundVideoUrl': data.get('background_video_url'), 'designId': design['design_id'], 'approvedOutputPolicy': POLICY, 'approvedOutputPolicies': OUTPUT_POLICIES, 'reference': design['reference_url'], 'sectionFiles': design['section_files'], 'sources': data.get('sources', {})}, indent=2) + '\n', encoding='utf-8')
     print('Rendered 56 Premium sections with the unnumbered output policy across eight pages; ' + str(len(report['missing'])) + ' unresolved values. Not published.')
     return report
 
@@ -174,8 +179,9 @@ if __name__ == '__main__':
     parser.add_argument('--values', required=True)
     parser.add_argument('--output', required=True)
     parser.add_argument('--verify-only', action='store_true')
+    parser.add_argument('--rotation-state', help='Shared workspace rotation-state JSON path')
     args = parser.parse_args()
     if args.verify_only:
         print(json.dumps(verify(json.loads(Path(args.values).read_text(encoding='utf-8-sig')), args.output), indent=2))
     else:
-        render(args.values, args.output)
+        render(args.values, args.output, rotation_state=args.rotation_state)
