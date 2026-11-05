@@ -1,0 +1,10 @@
+{
+  "policy": "background-video-rotation-v1",
+  "next_index_for_new_state": 1,
+  "videos": [
+    "https://assets.cdn.filesafe.space/QlANsOZzrrlPFQ1SZTH4/media/6a39622a71752c7f3efabcb7.mp4",
+    "https://assets.cdn.filesafe.space/vrndAnPS7dnx1FFMKbZu/media/6aec8b4f9c8e9c411ecca4d2.mp4",
+    "https://assets.cdn.filesafe.space/vrndAnPS7dnx1FFMKbZu/media/6aec8d90fb31f444f249ca0e.mp4",
+    "https://assets.cdn.filesafe.space/vrndAnPS7dnx1FFMKbZu/media/6aec8dacad7ec4802b9b62a6.mp4"
+  ]
+}
