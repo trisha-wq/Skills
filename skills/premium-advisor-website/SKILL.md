@@ -23,6 +23,10 @@ The default renderer applies the approved `unnumbered-v1` output policy: remove 
 
 Omit the Get an Instant Quote button and its supporting quote copy. Discover The Bridge must open the selected advisor's verified WebPrez WITHOUT Viewing Notice link for Asset Based Elder Care (`library_risk_02_url`, video identity `2vw3dv`). The renderer derives `bridge_url` from that slot; it does not reuse another advisor's link or a separately supplied Bridge destination. If the verified slot is missing, keep Discover The Bridge disabled and report the missing link. The approved `services-planning-resources-v1` output policy applies this behavior without editing pinned baseline hashes.
 
+## Legacy Stories guidebook price
+
+The approved Legacy Stories guidebook CTA is **Leverage Your Guidebook For $59**, replacing $97. `scripts/legacy_pricing.py` applies `legacy-guidebook-price-v1` during rendering and verification without editing pinned templates or hashes. Apply it to task-local adaptations and regenerate affected exports, previews, manifests and ZIPs. Preserve the existing purchase destination, surrounding copy, layout, and other numeric content. Run `scripts/test_legacy_pricing.py` after changing the pricing policy.
+
 ## Intake and sources
 
 Read [references/source-workflow.md](references/source-workflow.md) when gathering content. Inspect currently available connectors and authenticated browser state; a skill does not connect accounts or preserve a signed-in session. Prefer connectors for supported reads and supported browser automation for ClickUp, WebPrez, or Vimeo when needed. Read the corresponding service/browser skill when using it. Ask for sign-in or missing access only after identifying the specific blocker. Never store passwords, cookies, access tokens, or session state in this skill.
