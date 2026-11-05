@@ -1,0 +1,11 @@
+# Background video rotation
+
+`assets/background-videos.json` contains the four approved GHL MP4 sources: the existing clip, followed by the three additional clips supplied on November 5, 2026. New sites use the first additional clip, then the second, third, existing clip, and repeat. This is rotation between newly created sites, not a slideshow or per-visitor randomization.
+
+`scripts/background_videos.py` assigns a source once during `render()`, writes the exact URL to top-level `background_video_url` in the advisor values JSON, and records it under `sources.backgroundVideo`. Verification and rebuilds reuse that selection. Keep this top-level value when regenerating intake JSON. For an existing site that predates this feature, first copy its actual approved background source into `background_video_url`; do not rotate an existing site merely because it is being edited.
+
+Rotation state is workspace-local `.premium-background-video-rotation.json` at the nearest parent containing `.git`, otherwise in the current working directory. Use `--rotation-state /path/to/shared-workspace/.premium-background-video-rotation.json` when several project directories need to share one sequence. `render(values_path, output, rotation_state=...)` supports the same override. Keep the state and its project paths local; do not add it to skill assets or upload it to GitHub. Preserve it when moving a workspace if the existing sequence should continue. A file lock serializes concurrent assignments; a busy lock reports a retry rather than allocating duplicate slots.
+
+An explicit `background_video_url` takes precedence and does not advance the sequence. All source URLs must be HTTPS MP4 URLs. Update the approved catalog only with user-supplied or verified sources; never construct CDN URLs. Persist the chosen URL before exporting, including task-local build wrappers, so rebuilding a site cannot silently change it.
+
+Only the `<source>` inside `.pfg-background-video` changes. Advisor introductions, library videos, popups, dimensions, pause/play, looping, mute, and reduced-motion behavior remain intact. Remove a previous clip's poster when switching to a different clip; use a verified matching poster if one is supplied later. Keep pinned templates and their hashes unchanged. Run `scripts/test_background_videos.py` and the existing renderer checks after changes.
