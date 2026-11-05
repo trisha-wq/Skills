@@ -27,6 +27,10 @@ Omit the Get an Instant Quote button and its supporting quote copy. Discover The
 
 The approved Legacy Stories guidebook CTA is **Leverage Your Guidebook For $59**, replacing $97. `scripts/legacy_pricing.py` applies `legacy-guidebook-price-v1` during rendering and verification without editing pinned templates or hashes. Apply it to task-local adaptations and regenerate affected exports, previews, manifests and ZIPs. Preserve the existing purchase destination, surrounding copy, layout, and other numeric content. Run `scripts/test_legacy_pricing.py` after changing the pricing policy.
 
+## Background video rotation
+
+New Premium sites rotate across the four approved GHL background clips in `assets/background-videos.json`. The renderer persists each new site's selection as top-level `background_video_url`; rebuilds reuse it. Existing-site edits preserve the approved current clip. Read [references/background-videos.md](references/background-videos.md) for the rotation order, shared workspace state, explicit overrides and checks. Keep hero sizing/spacing and all foreground video links intact; do not change backgrounds per page load.
+
 ## Intake and sources
 
 Read [references/source-workflow.md](references/source-workflow.md) when gathering content. Inspect currently available connectors and authenticated browser state; a skill does not connect accounts or preserve a signed-in session. Prefer connectors for supported reads and supported browser automation for ClickUp, WebPrez, or Vimeo when needed. Read the corresponding service/browser skill when using it. Ask for sign-in or missing access only after identifying the specific blocker. Never store passwords, cookies, access tokens, or session state in this skill.
