@@ -9,11 +9,12 @@ from html.parser import HTMLParser
 from pathlib import Path
 from urllib.parse import urlparse
 from numbering import POLICY, without_numbering
+from legacy_pricing import POLICY as LEGACY_PRICING_POLICY, apply_legacy_pricing
 
 SKILL = Path(__file__).resolve().parents[1]
 TEMPLATES = SKILL / 'assets/template'
 TOKEN = re.compile(r'\{\{([a-z0-9_]+)\}\}')
-OUTPUT_POLICIES = [POLICY, 'services-planning-resources-v1']
+OUTPUT_POLICIES = [LEGACY_PRICING_POLICY, POLICY, 'services-planning-resources-v1']
 
 
 def contract():
@@ -73,6 +74,7 @@ def prepare(data, design):
 
 
 def substitute(original, values, paragraphs):
+    original = apply_legacy_pricing(original)
     original = re.sub(r'<a\b[^>]*href="\{\{instant_quote_url\}\}"[^>]*>.*?</a>', '', original, flags=re.S)
     original = original.replace('Learn about The Bridge or explore an instant life insurance quote through our existing partner resources.', 'Learn about The Bridge through our existing partner resources.')
     missing = set()
