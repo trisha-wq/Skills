@@ -15,9 +15,15 @@ For the bundled design, use the supplied renderer and change advisor content, ve
 
 ## Numbering policy
 
-The default renderer applies the approved `unnumbered-v1` output policy: remove decorative numbering from planning tabs, service cards, event topics, planning-process labels, partner profiles, and Stress Test resources. Preserve phone numbers, dates, prices, percentages, video counts, and substantive titles. Keep arrow icons and apply the policy's scoped column adjustments where a number column is removed. Numbered export filenames remain the GHL paste order.
+The default renderer applies the approved `unnumbered-v1` output policy: remove decorative numbering from planning tabs, service cards, event topics, planning-process labels, partner profiles, and Stress Test resources. Preserve phone numbers, dates, prices, percentages, video counts, and substantive titles. Apply the presentation policy below to arrow icons, and apply the policy's scoped column adjustments where a number column is removed. Numbered export filenames remain the GHL paste order.
 
 `scripts/numbering.py` implements this policy without changing the pinned template files or hashes. Verification checks advisor substitutions plus the explicit output policy, and does not claim a content-only or CSS-preserving transformation. Apply the same helper to task-local adaptations; do not reinstate numbering from a raw baseline copy.
+
+## Arrows, service icons and responsive output
+
+The approved `restrained-arrows-responsive-v1` and `service-icons-v3` output policies retain arrows only in the header, Home hero and closing consultation CTAs, using inline SVG so devices do not render them as emojis. Remove decorative arrows from secondary links, cards, tabs, filters, partner profiles and the scroll hint. Preserve meaningful expansion controls and video play controls.
+
+On Home and Services, place each gold line service icon beside its title in a vertically centered heading row: 42px cream tile, 24px artwork, 14px gap and 23px title. Keep descriptions below and retain all eight service cards on each page. Do not center an icon separately above the title or use colorful emoji glyphs. `scripts/presentation.py` applies these choices with scoped tablet/mobile spacing, wrapping buttons, readable contact links and touch controls. It runs after numbering removal, without changing pinned templates or hashes. Apply the same helper to task-local adaptations; run `scripts/test_presentation.py` and `scripts/test_numbering.py` after changes. Preview geometry changes at mobile, tablet and desktop widths.
 
 ## Services planning resources
 

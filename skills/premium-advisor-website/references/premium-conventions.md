@@ -8,7 +8,7 @@ Default inventory: Home 12; About 8; Services 7; Videos 5; Events 5; Legacy Stor
 
 Each block owns its CSS, IDs, and script initialization. Preserve the wrapper and inner markup. Set the first GHL outer section to Sticky Top when using the sticky header, and set surrounding GHL padding/margins to zero. Do not add global historical CSS on top. Change only documented content/color placeholders with the renderer; theme colors do not change geometry.
 
-The approved `unnumbered-v1` renderer output policy removes decorative numeric spans and numeric step prefixes, preserves arrow icons, and adjusts service/tab styling and resource grid columns so no empty number column remains. The pinned template files and hashes remain unchanged. Export filenames stay numbered for paste order; meaningful numeric content stays intact. This explicit output policy is an exception to preserving the baseline's inner markup and CSS unchanged.
+The approved `unnumbered-v1` renderer output policy removes decorative numeric spans and numeric step prefixes, leaves arrow handling to the presentation policy, and adjusts service/tab styling and resource grid columns so no empty number column remains. The pinned template files and hashes remain unchanged. Export filenames stay numbered for paste order; meaningful numeric content stays intact. This explicit output policy is an exception to preserving the baseline's inner markup and CSS unchanged.
 
 Services planning resources follows `services-planning-resources-v1`: no Get an Instant Quote button or quote invitation, and Discover The Bridge uses the advisor's verified Asset Based Elder Care WebPrez WITHOUT Viewing Notice video (`library_risk_02_url`, identity `2vw3dv`). Missing verified video links leave that action disabled. The baseline hashes remain unchanged; the renderer verifies these explicit output policies.
 
@@ -52,3 +52,7 @@ Actual advisor logo in a cream plaque, contact/social/navigation, and approved m
 ## Historical export inventory
 
 Home 13 blocks; About 9; Services 7; Videos 5; Events 5; Legacy Stories 7; Contact 4; Stress Test 8. Existing folders are ghl-<page>-sections-inline; combined previews are review/<page>-sections-inline.html. Export block numbering reflects the page order above. Reuse relevant current blocks for Pinnacle changes; for another advisor map new content into this structure and verify all substitutions.
+
+## Approved presentation output
+
+`restrained-arrows-responsive-v1` removes secondary decorative arrows and retains drawn SVG arrows for the header, Home hero and closing consultation CTAs. `service-icons-v3` uses gold line SVGs in cream tiles beside service titles on Home and Services. Icon/title pairs share a vertically centered row with a 14px gap; descriptions remain below. The renderer applies `scripts/presentation.py` after numbering removal, preserving pinned baseline hashes, section inventories, destinations and scripts. It also includes scoped tablet spacing, mobile button wrapping, contact-link wrapping and touch sizing. These explicit output policies supersede historical arrow-preservation instructions. Verify browser appearance at mobile, tablet and desktop widths; source tests alone do not establish visual rendering.

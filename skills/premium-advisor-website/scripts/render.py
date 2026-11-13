@@ -9,13 +9,14 @@ from html.parser import HTMLParser
 from pathlib import Path
 from urllib.parse import urlparse
 from numbering import POLICY, without_numbering
+from presentation import POLICY as PRESENTATION_POLICY, SERVICE_ICON_POLICY, apply_presentation
 from background_videos import POLICY as BACKGROUND_VIDEO_POLICY, apply_background_video, assign_background, validate_background
 from legacy_pricing import POLICY as LEGACY_PRICING_POLICY, apply_legacy_pricing
 
 SKILL = Path(__file__).resolve().parents[1]
 TEMPLATES = SKILL / 'assets/template'
 TOKEN = re.compile(r'\{\{([a-z0-9_]+)\}\}')
-OUTPUT_POLICIES = [BACKGROUND_VIDEO_POLICY, LEGACY_PRICING_POLICY, POLICY, 'services-planning-resources-v1']
+OUTPUT_POLICIES = [BACKGROUND_VIDEO_POLICY, LEGACY_PRICING_POLICY, POLICY, 'services-planning-resources-v1', PRESENTATION_POLICY, SERVICE_ICON_POLICY]
 
 
 def contract():
@@ -93,7 +94,7 @@ def substitute(original, values, paragraphs, background_video_url=None):
     result = TOKEN.sub(replace, original)
     # Keep unavailable actions in place, but never navigate to placeholder URLs.
     result = re.sub(r'href="\{\{([a-z0-9_]+)\}\}"', lambda m: 'aria-disabled="true" data-unresolved="' + m[1] + '"', result)
-    return without_numbering(result), missing
+    return apply_presentation(without_numbering(result)), missing
 
 
 class Inventory(HTMLParser):
