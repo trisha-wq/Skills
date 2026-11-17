@@ -1,0 +1,64 @@
+
+<style>
+#DIALOG_ID{box-sizing:border-box;width:min(1100px,calc(100vw - 32px));max-width:calc(100vw - 32px);max-height:calc(100dvh - 32px);padding:0;border:1px solid #d8bba0;border-radius:16px;background:#08335b;color:white;overflow:auto;box-shadow:0 20px 90px #0008;font-family:inherit}
+#DIALOG_ID::backdrop{background:#000c}
+#DIALOG_ID .srs-library-popup-bar{display:flex;align-items:center;justify-content:space-between;gap:18px;padding:16px 20px;background:radial-gradient(circle at 100% 0%,rgba(216,187,160,.12),transparent 60%),#08335b}
+#DIALOG_ID h2{margin:0;color:white;font:600 18px/1.4 Manrope,Arial,sans-serif}
+#DIALOG_ID button{flex-shrink:0;min-width:44px;min-height:44px;padding:8px 12px;border:1px solid #d8bba0;border-radius:8px;background:transparent;color:white;font:14px Manrope,Arial,sans-serif;cursor:pointer}
+#DIALOG_ID button:hover{background:#062947;border-color:#e3c5ab}
+#DIALOG_ID button:focus-visible,#DIALOG_ID a:focus-visible{outline:3px solid #ead0b7;outline-offset:3px}
+#DIALOG_ID iframe{display:block;width:100%;height:min(68dvh,680px);border:0;background:#fff}
+#DIALOG_ID .srs-library-popup-footer{margin:0;padding:12px 20px;font:13px/1.5 Manrope,Arial,sans-serif}
+#DIALOG_ID a{color:#ead0b7;text-decoration:underline}
+@media(max-width:600px){#DIALOG_ID .srs-library-popup-bar{padding:10px 12px;gap:10px}#DIALOG_ID h2{font-size:15px}#DIALOG_ID iframe{height:64dvh}}
+</style>
+<dialog id="DIALOG_ID" aria-labelledby="DIALOG_ID-title">
+  <div class="srs-library-popup-bar">
+    <h2 id="DIALOG_ID-title">Watch video</h2>
+    <button type="button" aria-label="Close video">Close ×</button>
+  </div>
+  <iframe title="Educational video" src="about:blank" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe>
+  <p class="srs-library-popup-footer"><a data-open-original target="_blank" rel="noopener noreferrer">Open the original video page in a new tab</a></p>
+</dialog>
+<script>(function () {
+  const root = document.querySelector('ROOT_SELECTOR');
+  const dialog = document.getElementById('DIALOG_ID');
+  if (!root || !dialog || dialog.dataset.initialized) return;
+  dialog.dataset.initialized = 'true';
+  const frame = dialog.querySelector('iframe');
+  const title = dialog.querySelector('h2');
+  const fallback = dialog.querySelector('[data-open-original]');
+  let opener = null;
+  let overflow = '';
+  root.addEventListener('click', function (event) {
+    const link = event.target.closest('a.ab-webprez');
+    if (!link || !root.contains(link) || event.defaultPrevented || event.button !== 0 ||
+        event.metaKey || event.ctrlKey || event.shiftKey || event.altKey ||
+        typeof dialog.showModal !== 'function') return;
+    let url;
+    try { url = new URL(link.href); } catch (_) { return; }
+    if (url.protocol !== 'https:' || url.hostname !== 'smartmoney.talk') return;
+    event.preventDefault();
+    opener = link;
+    const heading = link.querySelector('h3');
+    const image = link.querySelector('img');
+    title.textContent = (heading && heading.textContent.trim()) || (image && image.alt) || 'Watch video';
+    frame.title = title.textContent;
+    fallback.href = link.href;
+    frame.src = link.href;
+    overflow = document.documentElement.style.overflow;
+    dialog.showModal();
+    document.documentElement.style.overflow = 'hidden';
+    dialog.querySelector('button').focus();
+  });
+  dialog.querySelector('button').addEventListener('click', function () { dialog.close(); });
+  dialog.addEventListener('click', function (event) {
+    if (event.target === dialog) dialog.close();
+  });
+  dialog.addEventListener('close', function () {
+    frame.src = 'about:blank';
+    document.documentElement.style.overflow = overflow;
+    if (opener && opener.isConnected) opener.focus({ preventScroll: true });
+  });
+})();
+</script>

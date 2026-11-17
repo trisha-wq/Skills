@@ -9,14 +9,20 @@ from html.parser import HTMLParser
 from pathlib import Path
 from urllib.parse import urlparse
 from numbering import POLICY, without_numbering
-from presentation import POLICY as PRESENTATION_POLICY, SERVICE_ICON_POLICY, apply_presentation
 from background_videos import POLICY as BACKGROUND_VIDEO_POLICY, apply_background_video, assign_background, validate_background
 from legacy_pricing import POLICY as LEGACY_PRICING_POLICY, apply_legacy_pricing
+from footer_policy import POLICY as FOOTER_POLICY, apply_footer_policy
+from video_popups import POLICY as VIDEO_POPUP_POLICY, with_video_popups, popup_palette
+from webprez_popups import POLICY as WEBPREZ_POPUP_POLICY, with_webprez_popups
+from readability import POLICY as READABILITY_POLICY, with_readable_type
+from arrows import POLICY as ARROW_POLICY, with_restrained_arrows
+from presentation import POLICY as PRESENTATION_POLICY, SERVICE_ICON_POLICY, apply_presentation
+from approved_template import POLICY as TEMPLATE_POLICY, apply_approved_template
 
 SKILL = Path(__file__).resolve().parents[1]
 TEMPLATES = SKILL / 'assets/template'
 TOKEN = re.compile(r'\{\{([a-z0-9_]+)\}\}')
-OUTPUT_POLICIES = [BACKGROUND_VIDEO_POLICY, LEGACY_PRICING_POLICY, POLICY, 'services-planning-resources-v1', PRESENTATION_POLICY, SERVICE_ICON_POLICY]
+OUTPUT_POLICIES = [BACKGROUND_VIDEO_POLICY, LEGACY_PRICING_POLICY, POLICY, 'services-planning-resources-v1', FOOTER_POLICY, VIDEO_POPUP_POLICY, WEBPREZ_POPUP_POLICY, READABILITY_POLICY, ARROW_POLICY, PRESENTATION_POLICY, SERVICE_ICON_POLICY, TEMPLATE_POLICY]
 
 
 def contract():
@@ -29,8 +35,11 @@ def contract():
 
 
 def prepare(data, design):
+    if data.get('hero_layout', 'compact') not in {'compact', 'preserve'}:
+        raise ValueError('hero_layout must be compact or preserve')
     if data.get('background_video_url'):
         validate_background(data['background_video_url'])
+    popup_palette(overrides=data.get('popup_theme'))
     values = dict(data.get('values', {}))
     if not isinstance(values.get('advisor_name'), str) or not values['advisor_name'].strip():
         raise ValueError('values.advisor_name is required')
@@ -54,7 +63,8 @@ def prepare(data, design):
             if parsed.scheme != 'https' or not parsed.hostname:
                 raise ValueError(key + ' must be a public HTTPS URL')
             if key.endswith('_thumbnail') or key in {'logo_url', 'headshot_url', 'roster_url'}:
-                if parsed.hostname != 'assets.cdn.filesafe.space':
+                if not (parsed.hostname == 'assets.cdn.filesafe.space' or
+                        (parsed.hostname == 'files.leadconnectorhq.com' and parsed.path.startswith('/file/'))):
                     raise ValueError(key + ' must use the verified GHL-hosted original image URL')
             elif key.startswith(('library_risk_', 'library_tax_')):
                 if parsed.hostname != 'smartmoney.talk' or '/n-n-' not in parsed.path:
@@ -77,9 +87,10 @@ def prepare(data, design):
     return values, paragraphs
 
 
-def substitute(original, values, paragraphs, background_video_url=None):
+def substitute(original, values, paragraphs, popup_theme=None, background_video_url=None, hero_layout='compact'):
     original = apply_background_video(original, background_video_url)
     original = apply_legacy_pricing(original)
+    original = apply_footer_policy(original)
     original = re.sub(r'<a\b[^>]*href="\{\{instant_quote_url\}\}"[^>]*>.*?</a>', '', original, flags=re.S)
     original = original.replace('Learn about The Bridge or explore an instant life insurance quote through our existing partner resources.', 'Learn about The Bridge through our existing partner resources.')
     missing = set()
@@ -94,7 +105,10 @@ def substitute(original, values, paragraphs, background_video_url=None):
     result = TOKEN.sub(replace, original)
     # Keep unavailable actions in place, but never navigate to placeholder URLs.
     result = re.sub(r'href="\{\{([a-z0-9_]+)\}\}"', lambda m: 'aria-disabled="true" data-unresolved="' + m[1] + '"', result)
-    return apply_presentation(without_numbering(result)), missing
+    palette=popup_palette(values,popup_theme)
+    result = apply_presentation(without_numbering(result))
+    result = with_restrained_arrows(with_readable_type(with_webprez_popups(with_video_popups(result,palette),palette)))
+    return apply_approved_template(result,palette,hero_layout,values.get('theme_primary')), missing
 
 
 class Inventory(HTMLParser):
@@ -120,7 +134,7 @@ def verify(data, output):
         raise ValueError('Missing, extra, or reordered section files')
     all_code, missing = [], set()
     for relative in sorted(expected_files):
-        expected, unresolved = substitute((TEMPLATES / relative).read_text(encoding='utf-8'), values, paragraphs, background_video_url=data.get('background_video_url'))
+        expected, unresolved = substitute((TEMPLATES / relative).read_text(encoding='utf-8'), values, paragraphs, data.get('popup_theme'), background_video_url=data.get('background_video_url'), hero_layout=data.get('hero_layout', 'compact'))
         actual = (output / relative).read_text(encoding='utf-8')
         if expected != actual:
             raise ValueError('Content and approved output policies check failed: ' + relative)
@@ -132,7 +146,7 @@ def verify(data, output):
         raise ValueError('Duplicate IDs across sections')
     if inventory.categories != design['library_categories']:
         raise ValueError('Video categories or card counts changed')
-    return {'backgroundVideoUrl': data.get('background_video_url'), 'designId': design['design_id'], 'reference': design['reference_url'], 'sectionCounts': design['section_counts'], 'templateIntegrityVerified': True, 'contentOnlyVerified': False, 'approvedOutputPolicy': POLICY, 'approvedOutputPolicies': OUTPUT_POLICIES, 'outputPolicyVerified': True, 'cssAndScriptsPreserved': False, 'scriptsPreserved': True, 'uniqueIdsVerified': True, 'missing': sorted(missing), 'allValuesPresent': not missing, 'readyForInstallation': False, 'destinationsIdentityVerified': False, 'renderedVerified': False, 'playbackVerified': False, 'published': False}
+    return {'backgroundVideoUrl': data.get('background_video_url'), 'designId': design['design_id'], 'reference': design['reference_url'], 'sectionCounts': design['section_counts'], 'templateIntegrityVerified': True, 'contentOnlyVerified': False, 'approvedOutputPolicy': POLICY, 'approvedOutputPolicies': OUTPUT_POLICIES, 'outputPolicyVerified': True, 'cssAndScriptsPreserved': False, 'scriptsPreserved': False, 'existingScriptsPreserved': True, 'uniqueIdsVerified': True, 'missing': sorted(missing), 'allValuesPresent': not missing, 'readyForInstallation': False, 'destinationsIdentityVerified': False, 'renderedVerified': False, 'playbackVerified': False, 'published': False}
 
 
 def render(values_path, output, rotation_state=None):
@@ -150,7 +164,7 @@ def render(values_path, output, rotation_state=None):
     for page, files in design['section_files'].items():
         pages[page] = []
         for relative in files:
-            rendered, _ = substitute((TEMPLATES / relative).read_text(encoding='utf-8'), values, paragraphs, background_video_url=data.get('background_video_url'))
+            rendered, _ = substitute((TEMPLATES / relative).read_text(encoding='utf-8'), values, paragraphs, data.get('popup_theme'), background_video_url=data.get('background_video_url'), hero_layout=data.get('hero_layout', 'compact'))
             target = output / relative
             target.parent.mkdir(parents=True, exist_ok=True)
             target.write_text(rendered, encoding='utf-8')

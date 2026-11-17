@@ -1,8 +1,10 @@
 # Portable Premium values
 
+Optional top-level `popup_theme` sets six-digit hex `background`, `accent`, `link`, and `hover` colors for both Vimeo and WebPrez popups. Otherwise the popup background follows `values.theme_deep`. Match these to the selected advisor's actual palette. This setting is separate from content-token `values` and does not modify the pinned template contract.
+
 Input JSON contains `values` (string fields), `bios.about` (approved biography paragraph array), and optional `sources` (task-local provenance). The complete supported field inventory is `assets/design-contract.json` -> `tokens`; unknown fields are rejected. Never put passwords, cookies, API credentials, or authenticated download URLs here.
 
-Identity: advisor_name (required), advisor_full_name, advisor_first_name, advisor_title, advisor_credentials, firm_name, license_number, phone, email, location_label, address_line_1, address_line_2, copyright_year. Uppercase variants of name/title/credentials/firm are derived if their corresponding source value is present. Supply intro_text, mission_text, and event_description from approved sources. Supply `bios.about` as paragraphs, not raw HTML.
+Identity: advisor_name (required), advisor_full_name, advisor_first_name, advisor_title, advisor_credentials, firm_name, license_number, phone, email, location_label, address_line_1, address_line_2, copyright_year. Uppercase variants of name/title/credentials/firm are derived if their corresponding source value is present. Supply intro_text and event_description from approved sources. Supply `bios.about` as paragraphs, not raw HTML. The `epic-footer-v1` policy supplies the approved two-paragraph mission and ePIC development credit from `scripts/footer_policy.py`; `mission_text` remains accepted for compatibility but does not replace the approved footer policy. Advisor identity fields still apply elsewhere on the site.
 
 Destinations: booking_url, linkedin_url, map_url, contact_form_url, stress_test_url, estateplan_invite_url, payment_url, bridge_url, instant_quote_url, registration_url. Keep these actions separate; do not substitute a booking/contact form for event registration or copy reference-advisor IDs. Internal page routes stay in the template; adapt final slugs only when confirmed and record that explicit change.
 
@@ -17,3 +19,7 @@ WebPrez slots: library_risk_01_url/thumbnail through 14 and library_tax_01_url/t
 Branding: theme_primary and theme_deep are six-digit hex colors; defaults #123238 and #0d292f. Explicit client branding takes precedence. Do not change CSS sizes, layout tracks, breakpoints, or fonts as part of a color substitution.
 
 Missing content remains a token and is listed in missing-values.csv. Missing action URLs are rendered in place as disabled anchors, not broken navigable links. Missing image/bio fields mean the build is not ready for installation; do not claim otherwise. Registration, Home cards, and library cards remain present. The source report preserves the distinction between integrity checks, browser rendering, playback, and publication.
+
+## Current template output
+
+Top-level `hero_layout` accepts `compact` (default for new builds) or `preserve` (retain an existing hero during narrow edits). The renderer supplies responsive navigation, service heading icons, readable captions and unnumbered CSS labels. Provide the advisor’s logo-derived `theme_primary` and `theme_deep`, not a previous advisor’s fixed palette. Verified original GHL image URLs may use `assets.cdn.filesafe.space` or the current `files.leadconnectorhq.com/file/` host; a host match alone does not establish image identity.
